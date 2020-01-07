@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import tv.gage.common.game.Player;
 
-public class BroadcastServiceHelperTest {
+public class BroadcasterTest {
 
-	private BroadcastServiceHelper broadcastServiceHelper = new BroadcastServiceHelper(
+	private Broadcaster broadcaster = new Broadcaster(
 			new BroadcastService() {
 				protected void sendPlayerMessage(Message message) {}
 				protected void sendGameMessage(Message message) {}
@@ -18,7 +18,7 @@ public class BroadcastServiceHelperTest {
 	@Test
 	public void broadcastToPlayerTest() {
 		Player player = Player.builder().playerCode("PLYR").build();
-		broadcastServiceHelper.broadcastToPlayer(player, "Test");
+		broadcaster.broadcastToPlayer(player, "Test");
 	}
 	
 	@Test
@@ -26,12 +26,20 @@ public class BroadcastServiceHelperTest {
 		Player player1 = Player.builder().playerCode("PLYR").build();
 		Player player2 = Player.builder().playerCode("WINR").build();
 		List<Player> players = Arrays.asList(new Player[] {player1, player2});
-		broadcastServiceHelper.broadcastToPlayers(players, "Test");
+		broadcaster.broadcastToPlayers(players, "Test");
+	}
+	
+	@Test
+	public void broadcastToPlayersExcept() {
+		Player player1 = Player.builder().playerCode("PLYR").build();
+		Player player2 = Player.builder().playerCode("WINR").build();
+		List<Player> players = Arrays.asList(new Player[] {player1, player2});
+		broadcaster.broadcastToPlayersExcept(players, player1, "Test");
 	}
 	
 	@Test
 	public void broadcastToGameTest() {
-		broadcastServiceHelper.broadcastToGame("Test");
+		broadcaster.broadcastToGame("Test");
 	}
 
 }
